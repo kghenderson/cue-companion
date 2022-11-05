@@ -1,0 +1,161 @@
+#!/bin/bash
+help_msg="
+Cue-Make script processes the current directory
+recommend setting: alias cm=\"""cue-make""\"
+
+creates local underscore files for debugging:
+cue eval   => __eval_\$DIRNAME.cue
+cue export => \$_DIRNAME.yaml
+
+# local commands
+all             : runs all commands
+fmt,f           : cue format
+eval,ev         : cue eval
+vet,v           : cue vet
+exp,ex,x        : cue export\n
+clean,c         : remove temp files
+help,h          : displays this message
+version         : displays script version
+
+# remote commands
+discuss         : opens CUE discussions 
+issues          : opens CUE issues
+packages,pkg    : opens CUE packages on pkg.go for function references
+playground,play : opens CUE playground
+proposals       : opens CUE proposals
+wiki            : opens CUE wiki
+
+"
+version="0.2.0"
+
+cuelang_discussions_url="https://github.com/cue-lang/cue/discussions"
+cuelang_docs_url="https://cuelang.org/docs/"
+cuelang_issues_url="https://github.com/cue-lang/cue/issues"
+cuelang_packages_url=https://pkg.go.dev/cuelang.org/go@v0.4.3
+cuelang_playground_url="https://cuelang.org/play"
+cuelang_proposals_url="https://github.com/cue-lang/cue/labels/Proposal"
+cuelang_wiki_url="https://github.com/cue-lang/cue/wiki"
+
+# use these flags for debugging
+# set -x
+# set -v
+
+# set exit on first failed command
+set -e
+
+# get the name of the working directory
+working_dir=${PWD##*/}
+
+eval_filename="__eval_${working_dir}.cue"
+export_filename="_${working_dir}.yaml"
+
+# cue export commands outputs the final, exportable output from the files
+function cmd_cue_export() {
+    printf "cue export . -o %q -f\n" "$export_filename" >&2
+    cue export . -o "$export_filename" -f
+}
+
+# cue eval commands outputs the final, and incomplete values, including hidden values and definitions
+function cmd_cue_eval() {
+    printf "cue eval -a . -o %q -f\n" "$eval_filename" >&2
+    cue eval -a . -o "$eval_filename" -f
+}
+
+# cue format commands formats the contents of the cue files (and their subdirectories)
+function cmd_cue_fmt() {
+    printf "cue fmt ./...\n" >&2
+    cue fmt .
+}
+
+# the cue vet command  check the files for validity
+function cmd_cue_vet() {
+    printf "cue vet -c .\n" >&2
+    cue vet -c .
+}
+
+# the cue-make clean
+function cmd_cuemake_clean() {
+    printf "rm %q\n" "$eval_filename" >&2
+    rm "$eval_filename"
+    printf "rm %q\n" "$export_filename" >&2
+    rm "$export_filename"
+}
+
+function cmd_cuemake_help() {
+    printf "%s\n" "$help_msg"
+}
+
+function cmd_cuemake_version() {
+  printf "%s\n" "$version"
+}
+
+function cmd_cuemake_openurl() {
+  printf "nohup open %q >/dev/null 2>&1 &\n" "$1" >&2
+  nohup open "$1" >/dev/null 2>&1
+}
+
+function cmd_cuelang_discuss() {
+  cmd_cuemake_openurl $cuelang_discussions_url
+}
+function cmd_cuelang_docs() {
+  cmd_cuemake_openurl $cuelang_docs_url
+}
+function cmd_cuelang_issues() {
+  cmd_cuemake_openurl $cuelang_issues_url
+}
+function cmd_cuelang_proposals() {
+  cmd_cuemake_openurl $cuelang_proposals_url
+}
+function cmd_cuelang_playground() {
+  cmd_cuemake_openurl $cuelang_playground_url
+}
+function cmd_cuelang_packages() {
+  cmd_cuemake_openurl $cuelang_packages_url
+}
+function cmd_cuelang_wiki() {
+  cmd_cuemake_openurl $cuelang_wiki_url
+}
+
+# command is the first argument (optional)
+cmd_arg=$1
+
+if [ $# = 0 ] || [ "$cmd_arg" == "all" ];  then
+  cmd_cue_fmt
+  cmd_cue_eval
+  cmd_cue_vet
+  cmd_cue_export
+
+elif [ "$cmd_arg" == "fmt" ] || [ "$cmd_arg" == "f" ]; then
+  cmd_cue_fmt
+elif [ "$cmd_arg" == "eval" ] || [ "$cmd_arg" == "ev" ] || [ "$cmd_arg" == "e" ]; then
+  cmd_cue_eval
+elif [ "$cmd_arg" == "exp" ] || [ "$cmd_arg" == "ex" ] || [ "$cmd_arg" == "x" ]; then
+  cmd_cue_export
+elif [ "$cmd_arg" == "vet" ] || [ "$cmd_arg" == "v" ]; then
+  cmd_cue_vet
+elif [ "$cmd_arg" == "clean" ] || [ "$cmd_arg" == "c" ]; then
+  cmd_cuemake_clean
+elif [ "$cmd_arg" == "version" ] || [ "$cmd_arg" == "ver" ]; then
+  cmd_cuemake_version
+
+elif [ "$cmd_arg" == "discuss" ]; then
+  cmd_cuelang_discuss
+elif [ "$cmd_arg" == "docs" ]; then
+  cmd_cuelang_docs
+elif [ "$cmd_arg" == "issues" ]; then
+  cmd_cuelang_issues
+elif [ "$cmd_arg" == "playground" ] || [ "$cmd_arg" == "play" ]; then
+  cmd_cuelang_playground
+elif [ "$cmd_arg" == "proposals" ]; then
+  cmd_cuelang_proposals
+elif [ "$cmd_arg" == "packages" ] || [ "$cmd_arg" == "pkg" ]; then
+  cmd_cuelang_proposals
+elif [ "$cmd_arg" == "wiki" ]; then
+  cmd_cuelang_wiki
+
+elif [ "$cmd_arg" == "help" ] || [ "$cmd_arg" == "h" ]; then
+  cmd_cuemake_help
+else
+   printf "unknown cue-make command: %q \n" "$cmd_arg" >&2
+   cmd_cuemake_help
+fi
