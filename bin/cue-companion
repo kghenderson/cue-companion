@@ -12,7 +12,7 @@ all             : runs all commands
 fmt,f           : cue format
 eval,ev         : cue eval
 vet,v           : cue vet
-exp,ex,x        : cue export\n
+exp,ex          : cue export\n
 clean,c         : remove temp files
 help,h          : displays this message
 version         : displays script version
@@ -46,8 +46,8 @@ set -e
 # get the name of the working directory
 working_dir=${PWD##*/}
 
-eval_filename="__eval_${working_dir}.cue"
-export_filename="_${working_dir}.yaml"
+eval_filename="__eval_${working_dir}__temp.cue"
+export_filename="__exp_${working_dir}__temp.yaml"
 
 # cue export commands outputs the final, exportable output from the files
 function cmd_cue_export() {
@@ -73,12 +73,19 @@ function cmd_cue_vet() {
     cue vet -c .
 }
 
-# the cue-make clean
+# clean a single file
+function cmd_cuemake_cleanfile() {
+    local filename=$1
+    if [ -e "$filename" ]; then
+      printf "rm -f %q\n" "$filename" >&2
+      rm -f "$filename"
+    fi
+}
+
+# clean all generated files
 function cmd_cuemake_clean() {
-    printf "rm %q\n" "$eval_filename" >&2
-    rm "$eval_filename"
-    printf "rm %q\n" "$export_filename" >&2
-    rm "$export_filename"
+    cmd_cuemake_cleanfile "$eval_filename"
+    cmd_cuemake_cleanfile "$export_filename"
 }
 
 function cmd_cuemake_help() {
@@ -129,7 +136,7 @@ elif [ "$cmd_arg" == "fmt" ] || [ "$cmd_arg" == "f" ]; then
   cmd_cue_fmt
 elif [ "$cmd_arg" == "eval" ] || [ "$cmd_arg" == "ev" ] || [ "$cmd_arg" == "e" ]; then
   cmd_cue_eval
-elif [ "$cmd_arg" == "exp" ] || [ "$cmd_arg" == "ex" ] || [ "$cmd_arg" == "x" ]; then
+elif [ "$cmd_arg" == "exp" ] || [ "$cmd_arg" == "ex" ]; then
   cmd_cue_export
 elif [ "$cmd_arg" == "vet" ] || [ "$cmd_arg" == "v" ]; then
   cmd_cue_vet

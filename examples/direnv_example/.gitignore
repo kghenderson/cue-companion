@@ -1,0 +1,3 @@
+
+# ignore _temp files, e.g. `_something_temp.file`
+/**/_*_temp.*
