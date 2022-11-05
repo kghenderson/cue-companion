@@ -20,7 +20,7 @@ version         : displays script version
 # remote commands
 discuss         : opens CUE discussions 
 issues          : opens CUE issues
-packages,pkg    : opens CUE packages on pkg.go for function references
+packages,pkg,p  : opens CUE packages on pkg.go for function references
 playground,play : opens CUE playground
 proposals       : opens CUE proposals
 wiki            : opens CUE wiki
@@ -155,8 +155,8 @@ elif [ "$cmd_arg" == "playground" ] || [ "$cmd_arg" == "play" ]; then
   cmd_cuelang_playground
 elif [ "$cmd_arg" == "proposals" ]; then
   cmd_cuelang_proposals
-elif [ "$cmd_arg" == "packages" ] || [ "$cmd_arg" == "pkg" ]; then
-  cmd_cuelang_proposals
+elif [ "$cmd_arg" == "packages" ] || [ "$cmd_arg" == "pkg" ] || [ "$cmd_arg" == "p" ]; then
+  cmd_cuelang_packages
 elif [ "$cmd_arg" == "wiki" ]; then
   cmd_cuelang_wiki
 
