@@ -3,24 +3,10 @@
 CUE-lang helper utility for debugging and development
                                       
 This tool is opinionated and may not be for everyone, just made it for myself to be helpful.
-
-
-recommend setting alias in .bashrc/.zshrc: 
-```bash
-# ck = CUE-Kompanion, because cc = c compiler
-alias ck=\"""cue-companion""\"
-```
-
+           
 creates local underscore files for debugging:<br/>
 - cue eval   => `__eval_$DIRNAME__temp.cue`
 - cue export => `__exp_$DIRNAME__temp.yaml`
-                                         
-note that that cue will exclude these files with leading underscores.
-also note that sample .gitignore will recursively ignore filenames with leading underscore and temp 
-```gitignore
-# recursively ignore _temp files, e.g. `_something_temp.file`
-/**/_*_temp.*
-```
 
 
 ## Commands 
@@ -42,6 +28,28 @@ also note that sample .gitignore will recursively ignore filenames with leading 
 | `proposals`    |          | launches CUE proposals page                  |
 | `wiki`         |          | launches CUE wiki                            |
                   
+## Setup 
+
+### .bashrc or .zshrc aliases
+```bash
+# ck = CUE-Kompanion, because cc = c compiler
+alias ck=\"""cue-companion""\"
+```
+recommend setting alias in .bashrc/.zshrc: 
+note that that cue will exclude these files with leading underscores.<br/>
+
+### .gitignore
+```gitignore
+# recursively ignore _temp files, e.g. `_something_temp.file`
+/**/_*_temp.*
+```
+this sample .gitignore statement will recursively ignore filenames with leading underscore and temp 
+              
+### Path
+the utility can be installed anywhere in your path, but the direnv example below
+will allow it to be saved/stored/customized in your local package using:
+https://direnv.net
+
 
 ## Examples 
 
