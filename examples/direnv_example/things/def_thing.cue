@@ -1,4 +1,4 @@
-package direnv_example
+package things
 
 // Things is a lookup map of Thing
 #Things: [mapkey=string]: #Thing & {Name: mapkey}

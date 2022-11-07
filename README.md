@@ -8,15 +8,22 @@ creates local underscore files for debugging:<br/>
 - cue eval   => `__eval_$DIRNAME__temp.cue`
 - cue export => `__exp_$DIRNAME__temp.yaml`
 
+these names were chosen for:  
+- easy of search, e.g. with `fzf`
+- reduced chances of existing filename conflicts
+- sorting to the top of the directory
+- naturally excluding from cue/go package evaluation 
+
 
 ## Commands 
 | cmd            | aliases  | description                                  |
 |----------------|----------|----------------------------------------------|
-| `all`          |          | runs all build commands                      |
+| `all`          | a        | runs all build commands                      |
 | `fmt`          | f        | cue format                                   |
 | `eval`         | ev       | cue eval                                     |
 | `vet`          | v        | cue vet                                      |
 | `exp`          | ex       | cue export                                   |
+| `run`          | r        | run command *folder name or command name     | 
 | `clean`        | c        | remove temp files                            |
 | `help`         | h        | displays this message                        |
 | `version`      |          | displays script version                      |

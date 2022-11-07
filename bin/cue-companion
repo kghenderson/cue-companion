@@ -1,4 +1,7 @@
 #!/bin/bash
+
+version="0.3.0"
+
 help_msg="
 Cue-Make script processes the current directory
 recommend setting: alias cm=\"""cue-make""\"
@@ -8,17 +11,18 @@ cue eval   => __eval_\$DIRNAME.cue
 cue export => \$_DIRNAME.yaml
 
 # local commands
-all             : runs all commands
+all,a           : runs all commands
 fmt,f           : cue format
 eval,ev         : cue eval
 vet,v           : cue vet
 exp,ex          : cue export\n
 clean,c         : remove temp files
+run,r           : run (*folderName | command)
 help,h          : displays this message
 version         : displays script version
 
 # remote commands
-discuss         : opens CUE discussions 
+discuss         : opens CUE discussions
 issues          : opens CUE issues
 packages,pkg,p  : opens CUE packages on pkg.go for function references
 playground,play : opens CUE playground
@@ -26,7 +30,6 @@ proposals       : opens CUE proposals
 wiki            : opens CUE wiki
 
 "
-version="0.2.0"
 
 cuelang_discussions_url="https://github.com/cue-lang/cue/discussions"
 cuelang_docs_url="https://cuelang.org/docs/"
@@ -67,11 +70,25 @@ function cmd_cue_fmt() {
     cue fmt .
 }
 
+# the cue run command to execute a command
+function cmd_cue_run() {
+    if [ "$2" == "" ]; then
+      printf "cue cmd %q\n" "$working_dir" >&2
+      cue cmd "$working_dir"
+    else
+      # pass the full arguments list (as is)
+      printf "cue cmd %q\n" "$*" >&2
+      cue cmd "$*"
+    fi
+}
+
 # the cue vet command  check the files for validity
 function cmd_cue_vet() {
     printf "cue vet -c .\n" >&2
     cue vet -c .
 }
+
+
 
 # clean a single file
 function cmd_cuemake_cleanfile() {
@@ -126,7 +143,7 @@ function cmd_cuelang_wiki() {
 # command is the first argument (optional)
 cmd_arg=$1
 
-if [ $# = 0 ] || [ "$cmd_arg" == "all" ];  then
+if [ $# = 0 ] || [ "$cmd_arg" == "all" ] || [ "$cmd_arg" == "a" ];  then
   cmd_cue_fmt
   cmd_cue_eval
   cmd_cue_vet
@@ -140,6 +157,9 @@ elif [ "$cmd_arg" == "exp" ] || [ "$cmd_arg" == "ex" ]; then
   cmd_cue_export
 elif [ "$cmd_arg" == "vet" ] || [ "$cmd_arg" == "v" ]; then
   cmd_cue_vet
+elif [ "$cmd_arg" == "run" ] || [ "$cmd_arg" == "r" ]; then
+  cmd_cue_run "$@"
+
 elif [ "$cmd_arg" == "clean" ] || [ "$cmd_arg" == "c" ]; then
   cmd_cuemake_clean
 elif [ "$cmd_arg" == "version" ] || [ "$cmd_arg" == "ver" ]; then

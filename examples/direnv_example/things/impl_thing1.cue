@@ -1,8 +1,8 @@
-package direnv_example
+package things
 
 Things: #Things
 
-Things: "MyThing": {
+Things: "MyThing1": {
 	Name:    string // name injected by map name above
 	Purpose: "To serve butter ..."
 }
