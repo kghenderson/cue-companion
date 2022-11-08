@@ -1,4 +1,4 @@
-package export_things
+package serve
 
 import (
 	"github.com/kghenderson/cue-companion/examples/direnv_example/things"

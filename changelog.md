@@ -1,6 +1,8 @@
 # CHANGELOG
        
                          
+[0.4.1]
+- bug fix for passing arguments to run command      
                                       
 [0.4.0]
 - added cue calendar command   

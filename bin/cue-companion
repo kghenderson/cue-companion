@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="0.4.0"
+version="0.4.1"
 
 help_msg="
 Cue-Make script processes the current directory
@@ -79,8 +79,8 @@ function cmd_cue_run() {
       cue cmd "$working_dir"
     else
       # pass the full arguments list (as is)
-      printf "cue cmd %q\n" "$*" >&2
-      cue cmd "$*"
+      printf "cue cmd %q\n" "${*:2}" >&2
+      cue cmd "${*:2}"
     fi
 }
 
