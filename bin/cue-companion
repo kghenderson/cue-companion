@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="0.3.0"
+version="0.4.0"
 
 help_msg="
 Cue-Make script processes the current directory
@@ -28,6 +28,7 @@ packages,pkg,p  : opens CUE packages on pkg.go for function references
 playground,play : opens CUE playground
 proposals       : opens CUE proposals
 wiki            : opens CUE wiki
+calendar,cal    : opens CUE community calendar
 
 "
 
@@ -38,6 +39,7 @@ cuelang_packages_url=https://pkg.go.dev/cuelang.org/go@v0.4.3
 cuelang_playground_url="https://cuelang.org/play"
 cuelang_proposals_url="https://github.com/cue-lang/cue/labels/Proposal"
 cuelang_wiki_url="https://github.com/cue-lang/cue/wiki"
+cuelang_calendar_url="https://calendar.google.com/calendar/u/0?cid=Y19lNzkxMWQ5OWQ4ZGIyMmU2ZTVjMzhkMTVkNjY2ZTVlNjdiNWE5ODNkZWU4N2JmNTU2NDY3NzI1OGIxYjJhMTFhQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"
 
 # use these flags for debugging
 # set -x
@@ -119,36 +121,41 @@ function cmd_cuemake_openurl() {
 }
 
 function cmd_cuelang_discuss() {
-  cmd_cuemake_openurl $cuelang_discussions_url
+  cmd_cuemake_openurl "$cuelang_discussions_url"
 }
 function cmd_cuelang_docs() {
-  cmd_cuemake_openurl $cuelang_docs_url
+  cmd_cuemake_openurl "$cuelang_docs_url"
 }
 function cmd_cuelang_issues() {
-  cmd_cuemake_openurl $cuelang_issues_url
+  cmd_cuemake_openurl "$cuelang_issues_url"
 }
 function cmd_cuelang_proposals() {
-  cmd_cuemake_openurl $cuelang_proposals_url
+  cmd_cuemake_openurl "$cuelang_proposals_url"
 }
 function cmd_cuelang_playground() {
-  cmd_cuemake_openurl $cuelang_playground_url
+  cmd_cuemake_openurl "$cuelang_playground_url"
 }
 function cmd_cuelang_packages() {
-  cmd_cuemake_openurl $cuelang_packages_url
+  cmd_cuemake_openurl "$cuelang_packages_url"
 }
 function cmd_cuelang_wiki() {
-  cmd_cuemake_openurl $cuelang_wiki_url
+  cmd_cuemake_openurl "$cuelang_wiki_url"
+}
+function cmd_cuelang_calendar() {
+  cmd_cuemake_openurl "$cuelang_calendar_url"
 }
 
 # command is the first argument (optional)
 cmd_arg=$1
 
+# default command
 if [ $# = 0 ] || [ "$cmd_arg" == "all" ] || [ "$cmd_arg" == "a" ];  then
   cmd_cue_fmt
   cmd_cue_eval
   cmd_cue_vet
   cmd_cue_export
 
+# cue commands
 elif [ "$cmd_arg" == "fmt" ] || [ "$cmd_arg" == "f" ]; then
   cmd_cue_fmt
 elif [ "$cmd_arg" == "eval" ] || [ "$cmd_arg" == "ev" ] || [ "$cmd_arg" == "e" ]; then
@@ -160,11 +167,13 @@ elif [ "$cmd_arg" == "vet" ] || [ "$cmd_arg" == "v" ]; then
 elif [ "$cmd_arg" == "run" ] || [ "$cmd_arg" == "r" ]; then
   cmd_cue_run "$@"
 
+# cue-companion commands
 elif [ "$cmd_arg" == "clean" ] || [ "$cmd_arg" == "c" ]; then
   cmd_cuemake_clean
 elif [ "$cmd_arg" == "version" ] || [ "$cmd_arg" == "ver" ]; then
   cmd_cuemake_version
 
+# cue-url commands
 elif [ "$cmd_arg" == "discuss" ]; then
   cmd_cuelang_discuss
 elif [ "$cmd_arg" == "docs" ]; then
@@ -179,7 +188,10 @@ elif [ "$cmd_arg" == "packages" ] || [ "$cmd_arg" == "pkg" ] || [ "$cmd_arg" == 
   cmd_cuelang_packages
 elif [ "$cmd_arg" == "wiki" ]; then
   cmd_cuelang_wiki
+elif [ "$cmd_arg" == "calendar" ] || [ "$cmd_arg" == "cal" ]; then
+  cmd_cuelang_calendar
 
+# help/unknown commands
 elif [ "$cmd_arg" == "help" ] || [ "$cmd_arg" == "h" ]; then
   cmd_cuemake_help
 else

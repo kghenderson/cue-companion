@@ -28,12 +28,13 @@ these names were chosen for:
 | `help`         | h        | displays this message                        |
 | `version`      |          | displays script version                      |
 | -------------- | -------- | -------------------------------------------- |
-| `discuss`      |          | launches CUE discussions page                |
-| `issues`       |          | launches CUE issues page                     |
-| `packages`     | pkg, p   | launches CUE packages page \[go packages\]   |
-| `playground`   | play     | launches CUE playground page                 |
-| `proposals`    |          | launches CUE proposals page                  |
-| `wiki`         |          | launches CUE wiki                            |
+| `discuss`      |          | launches CUE Discussions Page                |
+| `issues`       |          | launches CUE Issues Page                     |
+| `packages`     | pkg, p   | launches CUE Packages Page \[go packages\]   |
+| `playground`   | play     | launches CUE Playground Page                 |
+| `proposals`    |          | launches CUE Proposals Page                  |
+| `wiki`         |          | launches CUE Wiki                            |
+| `calendar`     | cal      | launches CUE Community Calendar              |
                   
 ## Setup 
 
