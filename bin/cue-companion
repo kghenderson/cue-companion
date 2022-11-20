@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="0.4.1"
+version="0.4.2"
 
 help_msg="
 Cue-Make script processes the current directory
@@ -165,6 +165,7 @@ elif [ "$cmd_arg" == "exp" ] || [ "$cmd_arg" == "ex" ]; then
 elif [ "$cmd_arg" == "vet" ] || [ "$cmd_arg" == "v" ]; then
   cmd_cue_vet
 elif [ "$cmd_arg" == "run" ] || [ "$cmd_arg" == "r" ]; then
+  cmd_cue_fmt
   cmd_cue_run "$@"
 
 # cue-companion commands

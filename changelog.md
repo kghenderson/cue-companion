@@ -1,6 +1,8 @@
 # CHANGELOG
        
-                         
+[0.4.2]
+- added fmt to run default      
+                            
 [0.4.1]
 - bug fix for passing arguments to run command      
                                       
