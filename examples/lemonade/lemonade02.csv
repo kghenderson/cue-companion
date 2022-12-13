@@ -1,0 +1,5 @@
+Name,Units,Rate,Amount,Notes
+Lemons,5,5,25,okay
+Sugar,4,6,22,error with amt
+A Very Very Long Name,-1,3,-3,long name
+"Name, with What?!",7.5,-2,-15,err with rate

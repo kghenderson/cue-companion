@@ -1,0 +1,27 @@
+package lemonade
+
+Items: [{
+	Name:   "Lemons"
+	Units:  5
+	Rate:   5
+	Amount: 25
+	Notes:  "okay"
+}, {
+	Name:   "Sugar"
+	Units:  4
+	Rate:   6
+	Amount: 22
+	Notes:  "error with amt"
+}, {
+	Name:   "A Very Very Long Name"
+	Units:  -1
+	Rate:   3
+	Amount: -3
+	Notes:  "long name"
+}, {
+	Name:   "Name, with What?!"
+	Units:  7.5
+	Rate:   -2
+	Amount: -15
+	Notes:  "err with rate"
+}]
