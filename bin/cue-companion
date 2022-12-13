@@ -93,18 +93,22 @@ function cmd_cue_vet() {
 
 
 # clean a single file
-function cmd_cuemake_cleanfile() {
-    local filename=$1
-    if [ -e "$filename" ]; then
-      printf "rm -f %q\n" "$filename" >&2
-      rm -f "$filename"
-    fi
-}
+# function cmd_cuemake_cleanfile() {
+#     local filename=$1
+#     if [ -e "$filename" ]; then
+#       printf "rm -f %q\n" "$filename" >&2
+#       rm -f "$filename"
+#     fi
+# }
+#function cmd_cuemake_clean() {
+    # cmd_cuemake_cleanfile "$eval_filename"
+    # cmd_cuemake_cleanfile "$export_filename"
+#}
 
 # clean all generated files
 function cmd_cuemake_clean() {
-    cmd_cuemake_cleanfile "$eval_filename"
-    cmd_cuemake_cleanfile "$export_filename"
+    # remove any file in descendant directory with `__temp.` naming convention
+    find . -type f -iregex ".*__temp\..*" -delete
 }
 
 function cmd_cuemake_help() {
