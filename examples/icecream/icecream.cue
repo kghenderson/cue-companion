@@ -10,8 +10,8 @@ package icecream
 // this is the order of choice of allowed options
 KidsPrefs: [
 	"strawberry",
-	"vanilla",
 	"mango",
+	"vanilla",
 ]
 
 // this is what the market has
@@ -42,7 +42,14 @@ KidsActualMarketOptionsRanked: [
 ]
 
 // finally, this picks out the final choise
-KidsChosenIceCream?: KidsActualMarketOptionsRanked[0]
+let shrug = #"¯\_(ツ)_/¯"#
+KidsChosenIceCream: #AllowedIceCreamOption | shrug
+let iceCreamFound = (KidsActualMarketOptionsRanked[0] != _|_)
+if iceCreamFound {KidsChosenIceCream: KidsActualMarketOptionsRanked[0]}
+
+if !iceCreamFound {KidsChosenIceCream: shrug}
+
+//KidsChosenIceCream?: KidsActualMarketOptionsRanked[0]
 
 // this constrains the kid to only choosing allowed options
 KidsPrefs: [...#AllowedIceCreamOption]
