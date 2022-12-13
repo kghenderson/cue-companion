@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="0.4.2"
+version="0.5.0"
 
 help_msg="
 Cue-Make script processes the current directory
@@ -52,13 +52,23 @@ set -e
 working_dir=${PWD##*/}
 
 eval_filename="__eval_${working_dir}__temp.cue"
-export_filename="__exp_${working_dir}__temp.yaml"
+export_yaml_filename="__exp_${working_dir}__temp.yaml"
+export_json_filename="__exp_${working_dir}__temp.json"
 
 # cue export commands outputs the final, exportable output from the files
 function cmd_cue_export() {
-    printf "cue export . -o %q -f\n" "$export_filename" >&2
-    cue export . -o "$export_filename" -f
+    cmd_cue_export_yaml
+    cmd_cue_export_json
 }
+function cmd_cue_export_yaml() {
+    printf "cue export . -o %q -f\n" "$export_yaml_filename" >&2
+    cue export . -o "$export_yaml_filename" -f
+}
+function cmd_cue_export_json() {
+    printf "cue export . -o %q -f\n" "$export_json_filename" >&2
+    cue export . -o "$export_json_filename" -f
+}
+
 
 # cue eval commands outputs the final, and incomplete values, including hidden values and definitions
 function cmd_cue_eval() {
